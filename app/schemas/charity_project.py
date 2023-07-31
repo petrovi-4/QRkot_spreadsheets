@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Extra, Field, validator
+from pydantic import BaseModel, Extra, Field, PositiveInt, validator
 
 
 class CharityProjectUpdate(BaseModel):
@@ -21,7 +21,7 @@ class CharityProjectCreate(CharityProjectUpdate):
 
     name: str = Field(..., min_length=1, max_length=100)
     description: str = Field(..., min_length=1)
-    full_amount: int = Field(..., gt=0)
+    full_amount: PositiveInt
 
     @validator("name", "description")
     def none_and_empty_field_not_allowed(cls, value: str):

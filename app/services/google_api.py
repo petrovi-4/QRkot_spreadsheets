@@ -56,6 +56,7 @@ async def set_user_permissions(
         "emailAddress": settings.email,
     }
     service = await wrapper_services.discover("drive", G_VERSION_DRIVE)
+
     await wrapper_services.as_service_account(
         service.permissions.create(
             fileId=spreadsheetid, json=permissions_body, fields="id"
@@ -74,6 +75,7 @@ async def spreadsheets_update_value(
         ["Топ проектов по скорости закрытия"],
         ["Название проекта", "Время сбора", "Описание"],
     ]
+
     for project in projects:
         new_row = [
             str(project["name"]),
@@ -81,8 +83,10 @@ async def spreadsheets_update_value(
             str(project["description"]),
         ]
         table_values.append(new_row)
+
     update_body = {"majorDimension": "ROWS", "values": table_values}
     all_lines = len(table_values)
+
     await wrapper_services.as_service_account(
         service.spreadsheets.values.update(
             spreadsheetId=spreadsheetid,
